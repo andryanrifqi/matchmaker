@@ -11,8 +11,6 @@ public class User {
 	private String username;
 	private String password;
 	private String creditCardNum;
-	// What is this for?
-	private String loginStatus;
 	
 	public User (String userID, String name, String address, String phoneNum,
 			String email, String dob, String username, String password,
