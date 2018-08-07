@@ -10,11 +10,11 @@ import model.*;
 public class Database {
 	
 	// Settings for SQL connection
-	private String connURL = "jdbc:mysql://localhost:3306/java_test";
-	private String username = "user";
-	private String password = "pass";
+	static private String connURL = "jdbc:mysql://localhost:3306/underground_market";
+	static private String username = "user";
+	static private String password = "pass";
 	
-	public User loadUser (String userID) {
+	static public User loadUser (String userID) {
 		User user = null;
 		
 		// Try to retrieve from database
@@ -29,15 +29,28 @@ public class Database {
 			// Send SQL statement
 			Statement stmt=con.createStatement(); 
 			ResultSet rs=stmt.executeQuery(
-					"select username, password, email"
-					+ " from user"
-					+ " where `userID`='" + userID + "'");
+					"select *"
+					+ " from users"
+					+ " where `user_id`='" + userID + "'");
 			
 			while(rs.next()) {
-				String username = rs.getString(1);
-				String password = rs.getString(2);
-				String email = rs.getString(3);
-				user = new User(userID, username, password, email);
+				String name = rs.getString(2);
+				String address = rs.getString(3);
+				String phoneNum = rs.getString(4);
+				String email = rs.getString(5);
+				String dob = rs.getString(6);
+				String username = rs.getString(7);
+				String password = rs.getString(8);
+				boolean admin = rs.getBoolean(9);
+				String creditCardNum = rs.getString(10);
+				if (admin) {
+					user = new Administrator(userID, name, address, phoneNum, email, dob, 
+							username, password, creditCardNum);
+				}
+				else {
+					user = new User(userID, name, address, phoneNum, email, dob, 
+							username, password, creditCardNum);
+				}
 			}
 			
 			// Close connection
